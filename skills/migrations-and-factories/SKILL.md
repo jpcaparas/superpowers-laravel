@@ -11,14 +11,14 @@ Keep schema changes safe, testable, and reversible.
 
 ```
 # Create model with migration + factory
-sail artisan make:model Post -mfc   # or: php artisan ...
+sail artisan make:model Post -mfc   # or: php artisan make:model Post -mfc
 
 # Run/rollback
-sail artisan migrate
-sail artisan migrate:rollback --step=1
+sail artisan migrate                # or: php artisan migrate
+sail artisan migrate:rollback --step=1   # or: php artisan migrate:rollback --step=1
 
 # Fresh DB (dangerous; dev only)
-sail artisan migrate:fresh --seed
+sail artisan migrate:fresh --seed   # or: php artisan migrate:fresh --seed
 ```
 
 ## Rules
@@ -38,4 +38,3 @@ sail artisan migrate:fresh --seed
 
 - Use factories in tests; avoid manual inserts
 - For integration tests touching DB, use transactions or `RefreshDatabase`
-

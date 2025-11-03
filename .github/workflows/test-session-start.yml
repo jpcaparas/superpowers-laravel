@@ -1,0 +1,19 @@
+name: Test SessionStart Hook
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  session-start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure jq is available
+        run: jq --version
+
+      - name: Run session-start.sh tests
+        run: bash scripts/test_session_start.sh
+

@@ -75,6 +75,17 @@ Skills activate automatically when relevant. For example:
 - `systematic-debugging` activates when debugging issues
 - `verification-before-completion` activates before claiming work is done
 
+### Runner Guidance (Sail vs host)
+
+- Prefer running commands with Sail when `laravel/sail` is declared; fall back to host tools otherwise.
+- When Sail is declared but containers are not running, the assistant will ask whether to start Sail (`sail up -d`) or proceed with host tools. It will not run host `php`/`composer`/DB/Node commands until you choose.
+- When Sail containers are running, use `sail` for all PHP/Composer/Node/DB commands to avoid environment drift; do not mix host and container installs in the same session.
+- Portable alias:
+
+```
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+```
+
 ## What's Inside
 
 ### Skills Library

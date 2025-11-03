@@ -17,6 +17,22 @@ Plus:
 - **Automatic Integration** - Skills activate automatically when relevant
 - **Consistent Workflows** - Systematic approaches to common engineering tasks
 
+## SessionStart Preview
+
+Below shows the startup message rendered when this plugin detects a Laravel repository. The assistant adapts guidance based on whether Sail is available.
+
+### When Sail is detected - use Sail wrappers
+
+<p align="center">
+  <img src="branding/with-sail.png" alt="SessionStart with Sail detected" height="366" />
+</p>
+
+### When Sail is NOT detected - use host machine commands
+
+<p align="center">
+  <img src="branding/without-sail.png" alt="SessionStart without Sail" height="425" />
+</p>
+
 ## Learn More
 
 Read the introduction to the original Superpowers: [Superpowers for Claude Code](https://blog.fsck.com/2025/10/09/superpowers/)
@@ -77,7 +93,7 @@ Skills activate automatically when relevant. For example:
 
 ### Runner Guidance (Sail vs host)
 
-- Prefer running commands with Sail when `laravel/sail` is declared; fall back to host tools otherwise.
+- Prefer running commands with Sail when it is available (`vendor/bin/sail` or a top‑level `./sail` helper); fall back to host tools otherwise.
 - When Sail is declared but containers are not running, the assistant will ask whether to start Sail (`sail up -d`) or proceed with host tools. It will not run host `php`/`composer`/DB/Node commands until you choose.
 - When Sail containers are running, use `sail` for all PHP/Composer/Node/DB commands to avoid environment drift; do not mix host and container installs in the same session.
 - Portable alias:

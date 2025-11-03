@@ -9,7 +9,7 @@ This repo is a Claude Code plugin that adds Laravel-aware skills without forcing
 /plugin install superpowers-laravel@superpowers-laravel-marketplace
 ```
 
-On session start, if your repo contains `artisan` or `composer.json` referencing `laravel/framework`, the plugin will load the `using-laravel-superpowers` introduction. If `laravel/sail` is declared in `composer.json`, the plugin adds Sail guidance and enforces interactive safety when containers are not running (see below).
+On session start, if your repo contains `artisan` or `composer.json` referencing `laravel/framework`, the plugin will load the `using-laravel-superpowers` introduction. If `vendor/bin/sail` (or a top‑level `./sail` helper) is present, the plugin adds Sail guidance and enforces interactive safety when containers are not running (see below).
 
 ## Option B: Copy Skills Locally
 
@@ -35,7 +35,7 @@ Use `sail ...` when available, otherwise `php artisan`, `composer`, and `pnpm` o
 
 ## Interactive Runner Gating
 
-When `laravel/sail` is present in `composer.json` but containers are not running, the assistant will not run host PHP/Composer/DB/Node commands without asking. You’ll be prompted to either:
+When Sail is available (`vendor/bin/sail` or `./sail`) but containers are not running, the assistant will not run host PHP/Composer/DB/Node commands without asking. You’ll be prompted to either:
 
 - Start Sail: `sail up -d` (recommended), or
 - Proceed using host tools for this session.

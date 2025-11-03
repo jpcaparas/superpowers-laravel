@@ -11,17 +11,15 @@ Run workers safely, verify execution, and test job behavior.
 
 ```
 # Start worker
-sail artisan queue:work --queue=high,default --tries=3 --backoff=5
+sail artisan queue:work --queue=high,default --tries=3 --backoff=5   # or: php artisan queue:work --queue=high,default --tries=3 --backoff=5
 
 # Horizon (if installed)
-sail artisan horizon
+sail artisan horizon                                               # or: php artisan horizon
 
 # Failed jobs
-sail artisan queue:failed
-sail artisan queue:retry all
+sail artisan queue:failed                                          # or: php artisan queue:failed
+sail artisan queue:retry all                                       # or: php artisan queue:retry all
 ```
-
-Non-Sail: replace `sail artisan` with `php artisan`.
 
 ## Patterns
 
@@ -34,4 +32,3 @@ Non-Sail: replace `sail artisan` with `php artisan`.
 
 - Use `Bus::fake()` to assert dispatching in unit tests
 - Use integration tests to verify side-effects (DB/IO)
-

@@ -21,16 +21,16 @@ sail pint           # or: vendor/bin/pint
 
 ```
 # PHPStan example
-sail vendor/bin/phpstan analyse --memory-limit=1G
+sail vendor/bin/phpstan analyse --memory-limit=1G   # or: vendor/bin/phpstan analyse --memory-limit=1G
 
 # Psalm example
-sail vendor/bin/psalm
+sail vendor/bin/psalm                               # or: vendor/bin/psalm
 ```
 
 ## Insights (optional, if installed)
 
 ```
-sail artisan insights --no-interaction --format=json --flush-cache
+sail artisan insights --no-interaction --format=json --flush-cache   # or: php artisan insights --no-interaction --format=json --flush-cache
 ```
 
 ## Tests
@@ -42,8 +42,8 @@ sail artisan test --parallel   # or: php artisan test --parallel
 ## Frontend (if applicable)
 
 ```
-sail pnpm run lint
-sail pnpm run types
+sail pnpm run lint    # or: pnpm run lint
+sail pnpm run types   # or: pnpm run types
 ```
 
 ## Checklist
@@ -53,4 +53,3 @@ sail pnpm run types
 - [ ] Tests pass locally (parallel where possible)
 - [ ] Frontend lint/types clean (if present)
 - [ ] No noisy logs/errors during runs
-

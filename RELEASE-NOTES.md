@@ -1,5 +1,33 @@
 # Laravel Superpowers — Release Notes
 
+## v0.1.1 (2025-11-04)
+
+Smarter Laravel Sail detection and safer command guidance.
+
+### Sail Detection & Safety
+
+- SessionStart hook now detects Sail deterministically via `composer.json` (checks `require-dev` and `require` for `laravel/sail`; uses `jq` when available, falls back to grep).
+- Detects Sail binary presence (`./sail` or `vendor/bin/sail`) and whether containers are running via `docker compose ps` / `docker-compose ps`.
+- Injects guidance to prefer Sail commands when Sail is declared; clearly maps Sail vs host command pairs (artisan/composer/php/node/db).
+- Interactive safety: when Sail is declared but containers are not running, the assistant must ask whether to start containers (`sail up -d`) or proceed using host tools—no host PHP/Composer/DB/Node commands should run until the user chooses.
+
+### Docs & Skills Cleanup
+
+- Replaced hardcoded Sail-only lines with Sail/non‑Sail pairs:
+  - `skills/migrations-and-factories/SKILL.md`
+  - `skills/queues-and-horizon/SKILL.md`
+  - `skills/daily-workflow/SKILL.md`
+  - `skills/quality-checks/SKILL.md`
+- Ensured quality/static analysis and frontend checks include host equivalents.
+
+### New Skill
+
+- [Removed] Previously documented interactive Sail prompt skill. Interactive safety is still enforced by the assistant when Sail is declared but containers are not running.
+
+### Reference
+
+- Common Sail commands supported: `sail up|stop|restart|ps`, `sail artisan …`, `sail php …`, `sail composer …`, `sail node|npm|npx|pnpm|pnpx|yarn|bun|bunx …`, `sail mysql|mariadb|psql|mongodb|redis|valkey`, `sail test|phpunit|pest|pint|dusk`.
+
 ## v0.1.0 (2025-11-03)
 
 First public release of Laravel Superpowers — a Laravel‑focused skills library for Claude Code. It brings proven workflows (TDD, debugging, planning) together with Laravel‑aware guidance that stays platform‑agnostic (works with or without Sail).

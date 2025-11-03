@@ -16,10 +16,64 @@ fi
 
 ### Laravel-centric startup: optionally inject Laravel intro only
 
+#############################################
+# Detect Laravel + Laravel Sail environment #
+#############################################
+
 # Detect Laravel projects (artisan file or laravel/framework in composer.json)
 is_laravel=false
 if [ -f "artisan" ] || ( [ -f "composer.json" ] && grep -q '"laravel/framework"' composer.json ); then
   is_laravel=true
+fi
+
+# Detect if Sail is declared in composer.json (require-dev or require)
+sail_declared=false
+if [ -f "composer.json" ]; then
+  if command -v jq >/dev/null 2>&1; then
+    if jq -e '."require-dev"."laravel/sail" or .require."laravel/sail"' composer.json >/dev/null 2>&1; then
+      sail_declared=true
+    fi
+  else
+    # Fallback: grep for the package name
+    if grep -q '"laravel/sail"' composer.json; then
+      sail_declared=true
+    fi
+  fi
+fi
+
+# Detect if a Sail entrypoint is present
+sail_binary_present=false
+if [ -f ./sail ] || [ -x ./vendor/bin/sail ]; then
+  sail_binary_present=true
+fi
+
+# Detect if Sail (docker compose) containers are running for this project
+containers_running=false
+compose_cmd=""
+if command -v docker >/dev/null 2>&1; then
+  # Prefer `docker compose` plugin
+  if docker compose version >/dev/null 2>&1; then
+    compose_cmd="docker compose"
+  fi
+fi
+if [ -z "$compose_cmd" ] && command -v docker-compose >/dev/null 2>&1; then
+  compose_cmd="docker-compose"
+fi
+
+if [ -n "$compose_cmd" ]; then
+  # Run quietly; if any service container exists and is running, consider Sail "up"
+  if $compose_cmd ps -q >/dev/null 2>&1; then
+    if [ -n "$($compose_cmd ps -q 2>/dev/null)" ]; then
+      containers_running=true
+    fi
+  fi
+fi
+
+# Test override to simulate container status in CI
+if [ "${SUPERPOWERS_TEST_SAIL_RUNNING:-}" = "true" ]; then
+  containers_running=true
+elif [ "${SUPERPOWERS_TEST_SAIL_RUNNING:-}" = "false" ]; then
+  containers_running=false
 fi
 
 # Read Laravel intro skill if applicable
@@ -32,12 +86,32 @@ fi
 laravel_intro_escaped=$(echo "$laravel_intro_content" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')
 warning_escaped=$(echo "$warning_message" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')
 
+# Build Sail guidance based on detection
+sail_guidance=""
+if [ "$is_laravel" = true ] && [ "$sail_declared" = true ]; then
+  sail_guidance="Laravel Sail is declared in composer.json. Prefer Sail commands inside containers to avoid host/env drift.\n\nKey mappings (Sail | Non‑Sail):\n- sail artisan … | php artisan …\n- sail composer … | composer …\n- sail php … | php …\n- sail pnpm … | pnpm … (or npm/yarn/bun)\n- sail mysql/psql/redis … | mysql/psql/redis-cli …\n\nPortable alias:\n  alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'\n"
+
+  if [ "$containers_running" = false ]; then
+    sail_guidance+="\nInteractive safety: Sail is present but containers are not running. Before executing any host commands (php, composer, mysql, node, pnpm, npm, yarn), ask the user: \"Start Sail containers now with: 'sail up -d'? Or proceed using host tools?\" Do not run host commands unless the user explicitly opts to proceed without Sail.\n"
+    if [ "$sail_binary_present" = true ]; then
+      sail_guidance+="Tip: Start containers: 'sail up -d' then verify: 'sail ps'.\n"
+    else
+      sail_guidance+="Tip: Install vendor binaries first: 'composer install' (host), then 'vendor/bin/sail up -d'.\n"
+    fi
+  else
+    sail_guidance+="\nSail appears to be running (docker compose ps shows active containers). Use Sail commands (artisan/composer/node/db) and avoid host binaries to keep environments consistent.\n"
+  fi
+fi
+
+# Escape Sail guidance
+sail_guidance_escaped=$(echo "$sail_guidance" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')
+
 # Output context injection as JSON
 cat <<EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "SessionStart",
-    "additionalContext": "<EXTREMELY_IMPORTANT>\nThis repository appears to be a Laravel project. Read the following onboarding first, then use the 'Skill' tool to run any Laravel skills you need.\n\n${laravel_intro_escaped}\n\n${warning_escaped}\n</EXTREMELY_IMPORTANT>"
+    "additionalContext": "<EXTREMELY_IMPORTANT>\nThis repository appears to be a Laravel project. Read the following onboarding first, then use the 'Skill' tool to run any Laravel skills you need.\n\n${laravel_intro_escaped}\n\n${sail_guidance_escaped}\n\n${warning_escaped}\n</EXTREMELY_IMPORTANT>"
   }
 }
 EOF

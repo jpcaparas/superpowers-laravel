@@ -1,5 +1,5 @@
 ---
-description: Create detailed implementation plan with bite-sized tasks
+description: Create a Laravel implementation plan; use the laravel:writing-plans skill exactly as written
 ---
 
-Use the writing-plans skill exactly as written
+Use the laravel:writing-plans skill exactly as written

@@ -1,5 +1,5 @@
 ---
-description: Interactive design refinement using Socratic method
+description: Laravel brainstorming; use the laravel:brainstorming skill exactly as written
 ---
 
-Use and follow the brainstorming skill exactly as written
+Use the laravel:brainstorming skill exactly as written

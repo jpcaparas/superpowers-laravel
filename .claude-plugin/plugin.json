@@ -1,13 +1,23 @@
 {
-  "name": "superpowers",
-  "description": "Core skills library for Claude Code: TDD, debugging, collaboration patterns, and proven techniques",
-  "version": "3.4.1",
+  "name": "superpowers-laravel",
+  "description": "Laravel-focused skills for Claude Code: TDD (Pest/PHPUnit), migrations, queues, quality checks (Pint/Insights), and pragmatic architecture patterns — Sail and non-Sail compatible.",
+  "version": "0.1.0",
   "author": {
-    "name": "Jesse Vincent",
-    "email": "jesse@fsck.com"
+    "name": "JP Caparas",
+    "email": "jp@jpcaparas.com"
   },
-  "homepage": "https://github.com/obra/superpowers",
-  "repository": "https://github.com/obra/superpowers",
+  "homepage": "https://github.com/jpcaparas/superpowers-laravel",
+  "repository": "https://github.com/jpcaparas/superpowers-laravel",
   "license": "MIT",
-  "keywords": ["skills", "tdd", "debugging", "collaboration", "best-practices", "workflows"]
+  "keywords": [
+    "laravel",
+    "php",
+    "sail",
+    "skills",
+    "tdd",
+    "debugging",
+    "architecture",
+    "workflows",
+    "quality"
+  ]
 }

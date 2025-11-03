@@ -1,19 +1,19 @@
 {
-  "name": "superpowers-dev",
-  "description": "Development marketplace for Superpowers core skills library",
+  "name": "superpowers-laravel-marketplace",
+  "description": "Development marketplace for Laravel Superpowers.",
   "owner": {
-    "name": "Jesse Vincent",
-    "email": "jesse@fsck.com"
+    "name": "JP Caparas",
+    "email": "jp@jpcaparas.com"
   },
   "plugins": [
     {
-      "name": "superpowers",
-      "description": "Core skills library for Claude Code: TDD, debugging, collaboration patterns, and proven techniques",
-      "version": "3.4.0",
+      "name": "superpowers-laravel",
+      "description": "Laravel-focused skills for Claude Code: TDD (Pest/PHPUnit), migrations, queues, quality checks (Pint/Insights), and pragmatic architecture patterns — Sail and non-Sail compatible.",
+      "version": "0.1.0",
       "source": "./",
       "author": {
-        "name": "Jesse Vincent",
-        "email": "jesse@fsck.com"
+        "name": "JP Caparas",
+        "email": "jp@jpcaparas.com"
       }
     }
   ]

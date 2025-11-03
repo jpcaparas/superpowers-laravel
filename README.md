@@ -1,23 +1,25 @@
-# Superpowers
+# Laravel Superpowers
 
-A comprehensive skills library of proven techniques, patterns, and workflows for AI coding assistants.
+<p align="center">
+  <img src="branding/logo.png" alt="Laravel Superpowers Logo" height="262" />
+  
+</p>
+
+Laravel-focused skills for Claude Code and AI coding assistants. Brings proven workflows (TDD, debugging, planning) plus Laravel‑specific guidance that works with or without Sail.
 
 ## What You Get
 
-- **Testing Skills** - TDD, async testing, anti-patterns
-- **Debugging Skills** - Systematic debugging, root cause tracing, verification
-- **Collaboration Skills** - Brainstorming, planning, code review, parallel agents
-- **Development Skills** - Git worktrees, finishing branches, subagent workflows
-- **Meta Skills** - Creating, testing, and sharing skills
+- **Laravel Skills** – Runner selection (Sail/non‑Sail), TDD with Pest/PHPUnit, migrations + factories, queues + Horizon, quality gates (Pint/Insights/PHPStan), pragmatic architecture (Ports & Adapters, Template Method), and complexity guardrails.
+- Can be used on its own; also compatible with the base Superpowers plugin. Overlapping generic skills are removed here to avoid conflicts.
 
 Plus:
-- **Slash Commands** - `/superpowers:brainstorm`, `/superpowers:write-plan`, `/superpowers:execute-plan`
+- **Slash Commands** - `/superpowers-laravel:brainstorm`, `/superpowers-laravel:write-plan`, `/superpowers-laravel:execute-plan`
 - **Automatic Integration** - Skills activate automatically when relevant
 - **Consistent Workflows** - Systematic approaches to common engineering tasks
 
 ## Learn More
 
-Read the introduction: [Superpowers for Claude Code](https://blog.fsck.com/2025/10/09/superpowers/)
+Read the introduction to the original Superpowers: [Superpowers for Claude Code](https://blog.fsck.com/2025/10/09/superpowers/)
 
 ## Installation
 
@@ -25,8 +27,8 @@ Read the introduction: [Superpowers for Claude Code](https://blog.fsck.com/2025/
 
 ```bash
 # In Claude Code
-/plugin marketplace add obra/superpowers-marketplace
-/plugin install superpowers@superpowers-marketplace
+/plugin marketplace add jpcaparas/superpowers-laravel
+/plugin install superpowers-laravel@superpowers-laravel-marketplace
 ```
 
 ### Verify Installation
@@ -35,35 +37,35 @@ Read the introduction: [Superpowers for Claude Code](https://blog.fsck.com/2025/
 # Check that commands appear
 /help
 
-# Should see:
-# /superpowers:brainstorm - Interactive design refinement
-# /superpowers:write-plan - Create implementation plan
-# /superpowers:execute-plan - Execute plan in batches
+# Should see Laravel commands, e.g.:
+# /superpowers-laravel:brainstorm
+# /superpowers-laravel:write-plan
+# /superpowers-laravel:execute-plan
+# /superpowers-laravel:laravel-check
+# /superpowers-laravel:laravel-tdd
 ```
 
 ### Codex (Experimental)
 
-**Note:** Codex support is experimental and may require refinement based on user feedback.
-
-Tell Codex to fetch https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md and follow the instructions.
+Codex support is experimental. Use the skills from this repo directly or copy the `skills/` subfolders you want into your project’s `.claude/skills`.
 
 ## Quick Start
 
 ### Using Slash Commands
 
-**Brainstorm a design:**
+**Brainstorm a design (Laravel-specific):**
 ```
-/superpowers:brainstorm
-```
-
-**Create an implementation plan:**
-```
-/superpowers:write-plan
+/superpowers-laravel:brainstorm
 ```
 
-**Execute the plan:**
+**Create an implementation plan (Laravel-specific):**
 ```
-/superpowers:execute-plan
+/superpowers-laravel:write-plan
+```
+
+**Execute the plan (Laravel-specific):**
+```
+/superpowers-laravel:execute-plan
 ```
 
 ### Automatic Skill Activation
@@ -77,45 +79,34 @@ Skills activate automatically when relevant. For example:
 
 ### Skills Library
 
-**Testing** (`skills/testing/`)
-- **test-driven-development** - RED-GREEN-REFACTOR cycle
-- **condition-based-waiting** - Async test patterns
-- **testing-anti-patterns** - Common pitfalls to avoid
+Skills live in `skills/` and are designed for everyday Laravel work. Core examples include `runner-selection`, `tdd-with-pest`, `migrations-and-factories`, `quality-checks`, `queues-and-horizon`, and `ports-and-adapters` — with many more patterns ready for larger teams.
 
-**Debugging** (`skills/debugging/`)
-- **systematic-debugging** - 4-phase root cause process
-- **root-cause-tracing** - Find the real problem
-- **verification-before-completion** - Ensure it's actually fixed
-- **defense-in-depth** - Multiple validation layers
-
-**Collaboration** (`skills/collaboration/`)
-- **brainstorming** - Socratic design refinement
-- **writing-plans** - Detailed implementation plans
-- **executing-plans** - Batch execution with checkpoints
-- **dispatching-parallel-agents** - Concurrent subagent workflows
-- **requesting-code-review** - Pre-review checklist
-- **receiving-code-review** - Responding to feedback
-- **using-git-worktrees** - Parallel development branches
-- **finishing-a-development-branch** - Merge/PR decision workflow
-- **subagent-driven-development** - Fast iteration with quality gates
-
-**Meta** (`skills/meta/`)
-- **writing-skills** - Create new skills following best practices
-- **sharing-skills** - Contribute skills back via branch and PR
-- **testing-skills-with-subagents** - Validate skill quality
-- **using-superpowers** - Introduction to the skills system
+This fork focuses on Laravel skills and removes overlapping generic skills so it can be used independently without conflicts. It is also compatible with the base Superpowers plugin if you choose to install both. Use the Laravel‑specific commands here, or continue using the base plugin’s generic workflows.
 
 ### Commands
 
-All commands are thin wrappers that activate the corresponding skill:
+Commands are thin wrappers that activate skills. Key examples:
 
-- **brainstorm.md** - Activates the `brainstorming` skill
-- **write-plan.md** - Activates the `writing-plans` skill
-- **execute-plan.md** - Activates the `executing-plans` skill
+- `brainstorm.md` → `laravel:brainstorming`
+- `write-plan.md` → `laravel:writing-plans`
+- `execute-plan.md` → `laravel:executing-plans`
+- `laravel-check.md` → `laravel:quality-checks`
+- `laravel-tdd.md` → `laravel:tdd-with-pest`
+
+### Skills Overview
+
+- Onboarding & Runner
+- Planning & Execution
+- Data & Schema
+- Quality & Ops
+- Architecture
+- Performance
+- Testing
+- Utilities
 
 ## How It Works
 
-1. **SessionStart Hook** - Loads the `using-superpowers` skill at session start
+1. **SessionStart Hook** – Adds Laravel onboarding (`laravel:using-laravel-superpowers`) when a Laravel repo is detected
 2. **Skills System** - Uses Claude Code's first-party skills system
 3. **Automatic Discovery** - Claude finds and uses relevant skills for your task
 4. **Mandatory Workflows** - When a skill exists for your task, using it becomes required
@@ -134,19 +125,31 @@ Skills live directly in this repository. To contribute:
 
 1. Fork the repository
 2. Create a branch for your skill
-3. Follow the `writing-skills` skill for creating new skills
-4. Use the `testing-skills-with-subagents` skill to validate quality
-5. Submit a PR
+3. Follow existing skill patterns (frontmatter name/description and focused, testable guidance)
+4. Submit a PR with a short release-notes entry
 
-See `skills/meta/writing-skills/SKILL.md` for the complete guide.
+### Run checks locally
+
+Validate structure and conventions before pushing:
+
+```
+# Requires Node.js 18+ (20 recommended)
+npx tsx scripts/validate_skills.ts
+```
+
+This verifies that:
+- `skills/` contains only one-level directories, each with `SKILL.md`
+- `SKILL.md` files have frontmatter with `name` (starting with `laravel:`) and `description`
+- `.claude-plugin/plugin.json` has required fields
+- `commands/*.md` have frontmatter `description`
 
 ## Updating
 
-Skills update automatically when you update the plugin:
+Update via the plugin menu or pull the latest changes if you cloned this repo.
 
-```bash
-/plugin update superpowers
-```
+## Related Tools
+
+- Laravel Boost: a Laravel‑focused MCP server that augments AI‑powered local development (Cursor, Claude Code, etc.). See https://github.com/laravel/boost and https://boost.laravel.com/. This skill catalogue is designed to complement Boost if you install both.
 
 ## License
 
@@ -154,5 +157,5 @@ MIT License - see LICENSE file for details
 
 ## Support
 
-- **Issues**: https://github.com/obra/superpowers/issues
-- **Marketplace**: https://github.com/obra/superpowers-marketplace
+- **Issues**: https://github.com/jpcaparas/superpowers-laravel/issues
+- **Marketplace**: https://github.com/jpcaparas/superpowers-laravel

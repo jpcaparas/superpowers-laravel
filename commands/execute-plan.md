@@ -1,5 +1,5 @@
 ---
-description: Execute plan in batches with review checkpoints
+description: Execute a Laravel plan in batches; use the laravel:executing-plans skill exactly as written
 ---
 
-Use the executing-plans skill exactly as written
+Use the laravel:executing-plans skill exactly as written

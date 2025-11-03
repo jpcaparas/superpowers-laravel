@@ -2,14 +2,19 @@
 
 ## v0.1.1 (2025-11-04)
 
-Smarter Laravel Sail detection and safer command guidance.
+Smarter Laravel detection, Sail via binary presence, and safer command guidance.
 
-### Sail Detection & Safety
+### Detection & Safety
 
-- SessionStart hook now detects Sail deterministically via `composer.json` (checks `require-dev` and `require` for `laravel/sail`; uses `jq` when available, falls back to grep).
-- Detects Sail binary presence (`./sail` or `vendor/bin/sail`) and whether containers are running via `docker compose ps` / `docker-compose ps`.
-- Injects guidance to prefer Sail commands when Sail is declared; clearly maps Sail vs host command pairs (artisan/composer/php/node/db).
-- Interactive safety: when Sail is declared but containers are not running, the assistant must ask whether to start containers (`sail up -d`) or proceed using host tools—no host PHP/Composer/DB/Node commands should run until the user chooses.
+- SessionStart now bails out cleanly for non‑Laravel repos (no output), ensuring the plugin does NOT activate outside Laravel projects.
+- Sail is detected by executable presence only: `vendor/bin/sail` (or a top‑level `./sail` helper). We no longer parse `composer.json` or rely on `jq` for Sail checks.
+- Determines whether containers are running via `docker compose ps` / `docker-compose ps` (unchanged).
+- Injects guidance to prefer Sail commands when Sail is available; clearly maps Sail vs host command pairs (artisan/composer/php/node/db).
+- Interactive safety: when Sail is available but containers are not running, the assistant must ask whether to start containers (`sail up -d`) or proceed using host tools—no host PHP/Composer/DB/Node commands should run until the user chooses.
+
+### Docs & Screenshots
+
+- README now includes screenshots of SessionStart with and without Sail.
 
 ### Docs & Skills Cleanup
 

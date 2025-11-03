@@ -20,31 +20,25 @@ fi
 # Detect Laravel + Laravel Sail environment #
 #############################################
 
-# Detect Laravel projects (artisan file or laravel/framework in composer.json)
+## Detect Laravel projects strictly and bail out when not detected
+# Consider it Laravel only when the repo has the canonical `artisan` entrypoint
+# or a composer.json that depends on `laravel/framework`.
 is_laravel=false
 if [ -f "artisan" ] || ( [ -f "composer.json" ] && grep -q '"laravel/framework"' composer.json ); then
   is_laravel=true
 fi
 
-# Detect if Sail is declared in composer.json (require-dev or require)
-sail_declared=false
-if [ -f "composer.json" ]; then
-  if command -v jq >/dev/null 2>&1; then
-    if jq -e '."require-dev"."laravel/sail" or .require."laravel/sail"' composer.json >/dev/null 2>&1; then
-      sail_declared=true
-    fi
-  else
-    # Fallback: grep for the package name
-    if grep -q '"laravel/sail"' composer.json; then
-      sail_declared=true
-    fi
-  fi
+# If not a Laravel project, exit quietly so the plugin does NOT activate
+if [ "$is_laravel" != true ]; then
+  exit 0
 fi
 
-# Detect if a Sail entrypoint is present
-sail_binary_present=false
-if [ -f ./sail ] || [ -x ./vendor/bin/sail ]; then
-  sail_binary_present=true
+## Detect Sail availability by executable presence, not composer.json
+# Treat Sail as available when either vendor/bin/sail exists/executable, or a top-level
+# ./sail helper script is present. We intentionally avoid parsing composer.json.
+sail_available=false
+if [ -x ./vendor/bin/sail ] || [ -f ./sail ]; then
+  sail_available=true
 fi
 
 # Detect if Sail (docker compose) containers are running for this project
@@ -76,9 +70,9 @@ elif [ "${SUPERPOWERS_TEST_SAIL_RUNNING:-}" = "false" ]; then
   containers_running=false
 fi
 
-# Read Laravel intro skill if applicable
+# Read Laravel intro skill
 laravel_intro_content=""
-if [ "$is_laravel" = true ] && [ -f "${PLUGIN_ROOT}/skills/using-laravel-superpowers/SKILL.md" ]; then
+if [ -f "${PLUGIN_ROOT}/skills/using-laravel-superpowers/SKILL.md" ]; then
   laravel_intro_content=$(cat "${PLUGIN_ROOT}/skills/using-laravel-superpowers/SKILL.md" 2>&1 || echo "")
 fi
 
@@ -88,16 +82,11 @@ warning_escaped=$(echo "$warning_message" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' 
 
 # Build Sail guidance based on detection
 sail_guidance=""
-if [ "$is_laravel" = true ] && [ "$sail_declared" = true ]; then
-  sail_guidance="Laravel Sail is declared in composer.json. Prefer Sail commands inside containers to avoid host/env drift.\n\nKey mappings (Sail | Non‑Sail):\n- sail artisan … | php artisan …\n- sail composer … | composer …\n- sail php … | php …\n- sail pnpm … | pnpm … (or npm/yarn/bun)\n- sail mysql/psql/redis … | mysql/psql/redis-cli …\n\nPortable alias:\n  alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'\n"
+if [ "$sail_available" = true ]; then
+  sail_guidance="Laravel Sail detected (vendor/bin/sail or ./sail present). Prefer Sail commands inside containers to avoid host/env drift.\n\nKey mappings (Sail | Non‑Sail):\n- sail artisan … | php artisan …\n- sail composer … | composer …\n- sail php … | php …\n- sail pnpm … | pnpm … (or npm/yarn/bun)\n- sail mysql/psql/redis … | mysql/psql/redis-cli …\n\nPortable alias:\n  alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'\n"
 
   if [ "$containers_running" = false ]; then
-    sail_guidance+="\nInteractive safety: Sail is present but containers are not running. Before executing any host commands (php, composer, mysql, node, pnpm, npm, yarn), ask the user: \"Start Sail containers now with: 'sail up -d'? Or proceed using host tools?\" Do not run host commands unless the user explicitly opts to proceed without Sail.\n"
-    if [ "$sail_binary_present" = true ]; then
-      sail_guidance+="Tip: Start containers: 'sail up -d' then verify: 'sail ps'.\n"
-    else
-      sail_guidance+="Tip: Install vendor binaries first: 'composer install' (host), then 'vendor/bin/sail up -d'.\n"
-    fi
+    sail_guidance+="\nInteractive safety: Sail is present but containers are not running. Before executing any host commands (php, composer, mysql, node, pnpm, npm, yarn), ask the user: \"Start Sail containers now with: 'sail up -d'? Or proceed using host tools?\" Do not run host commands unless the user explicitly opts to proceed without Sail.\nTip: Start containers: 'sail up -d' then verify: 'sail ps'.\n"
   else
     sail_guidance+="\nSail appears to be running (docker compose ps shows active containers). Use Sail commands (artisan/composer/node/db) and avoid host binaries to keep environments consistent.\n"
   fi

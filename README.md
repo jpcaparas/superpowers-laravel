@@ -110,6 +110,23 @@ Skills live in `skills/` and are designed for everyday Laravel work. Core exampl
 
 This fork focuses on Laravel skills and removes overlapping generic skills so it can be used independently without conflicts. It is also compatible with the base Superpowers plugin if you choose to install both. Use the Laravel‑specific commands here, or continue using the base plugin’s generic workflows.
 
+#### Docs Intersection (Laravel 11.x + 12.x)
+
+We added a focused set of skills that reflect patterns stable across both 11.x and 12.x:
+
+- Form Requests & Validation (`laravel:form-requests`)
+- Policies & Authorization (`laravel:policies-and-authorization`)
+- Eloquent Relationships & Loading (`laravel:eloquent-relationships`)
+- Transactions & Consistency (`laravel:transactions-and-consistency`)
+- HTTP Client Resilience (`laravel:http-client-resilience`)
+- Task Scheduling (`laravel:task-scheduling`)
+- API Resources & Pagination (`laravel:api-resources-and-pagination`)
+- Blade Components & Layouts (`laravel:blade-components-and-layouts`)
+- Filesystem Uploads & URLs (`laravel:filesystem-uploads`)
+- Rate Limiting & Throttle (`laravel:rate-limiting`)
+- Exception Handling & Logging (`laravel:exception-handling-and-logging`)
+
+
 ### Commands
 
 Commands are thin wrappers that activate skills. Key examples:
@@ -119,6 +136,20 @@ Commands are thin wrappers that activate skills. Key examples:
 - `execute-plan.md` → `laravel:executing-plans`
 - `laravel-check.md` → `laravel:quality-checks`
 - `laravel-tdd.md` → `laravel:tdd-with-pest`
+
+Additional wrappers for the new docs‑intersection skills:
+
+- `laravel-form-requests.md` → `laravel:form-requests`
+- `laravel-policies.md` → `laravel:policies-and-authorization`
+- `laravel-eloquent-relationships.md` → `laravel:eloquent-relationships`
+- `laravel-transactions.md` → `laravel:transactions-and-consistency`
+- `laravel-http-client.md` → `laravel:http-client-resilience`
+- `laravel-scheduling.md` → `laravel:task-scheduling`
+- `laravel-api-resources.md` → `laravel:api-resources-and-pagination`
+- `laravel-blade-components.md` → `laravel:blade-components-and-layouts`
+- `laravel-filesystem-uploads.md` → `laravel:filesystem-uploads`
+- `laravel-rate-limiting.md` → `laravel:rate-limiting`
+- `laravel-exceptions-logging.md` → `laravel:exception-handling-and-logging`
 
 ### Skills Overview
 

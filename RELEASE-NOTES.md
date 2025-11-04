@@ -1,5 +1,39 @@
 # Laravel Superpowers — Release Notes
 
+## v0.1.2 (2025-11-04)
+
+Docs sweep across Laravel 11.x and 12.x, with new skills matching the intersection of stable patterns. Also consolidated duplicates and kept commands thin.
+
+### Added (Skills)
+
+- Form Requests & Validation (`laravel:form-requests`)
+- Policies & Authorization (`laravel:policies-and-authorization`)
+- Eloquent Relationships & Loading (`laravel:eloquent-relationships`)
+- Transactions & Consistency (`laravel:transactions-and-consistency`)
+- HTTP Client Resilience (`laravel:http-client-resilience`)
+- Task Scheduling (`laravel:task-scheduling`)
+- API Resources & Pagination (`laravel:api-resources-and-pagination`)
+- Blade Components & Layouts (`laravel:blade-components-and-layouts`)
+- Filesystem Uploads & URLs (`laravel:filesystem-uploads`)
+- Rate Limiting & Throttle (`laravel:rate-limiting`)
+- Exception Handling & Logging (`laravel:exception-handling-and-logging`)
+
+Matching command wrappers were added under `commands/` using the existing convention.
+
+### Changed
+
+- Unified caching guidance into `laravel:performance-caching` (added tags, locks, invalidation best‑practices). Removed the duplicate cache strategies skill/command.
+- De‑duplicated Eloquent guidance: relationships skill now references `laravel:performance-eager-loading` for N+1 detection/measurement.
+
+### Removed
+
+- Subagents that duplicated skills (Form Request Builder, Policy Planner, Transaction Auditor, API Resource Designer). The repo keeps subagents minimal; the controller cleaner remains.
+- Redundant Sail prompt skill (covered by runner selection and integration docs).
+
+### Docs
+
+- Summary of 11.x/12.x intersection captured within the new skills themselves.
+
 ## v0.1.1 (2025-11-04)
 
 Smarter Laravel detection, Sail via binary presence, and safer command guidance.

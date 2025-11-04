@@ -2,12 +2,15 @@
 
 <p align="center">
   <img src="branding/logo.png" alt="Laravel Superpowers Logo" height="262" />
-  
 </p>
 
 Laravel-focused skills for Claude Code and AI coding assistants. Brings proven workflows (TDD, debugging, planning) plus Laravel‑specific guidance that works with or without Sail.
 
 ## What You Get
+
+<p align="center">
+   <img height="350" alt="image" src="https://github.com/user-attachments/assets/4cc47e9d-80f6-40ab-b05a-28e39d21f2ce" />
+</p>
 
 - **Laravel Skills** – Runner selection (Sail/non‑Sail), TDD with Pest/PHPUnit, migrations + factories, queues + Horizon, quality gates (Pint/Insights/PHPStan), pragmatic architecture (Ports & Adapters, Template Method), and complexity guardrails.
 - Can be used on its own; also compatible with the base Superpowers plugin. Overlapping generic skills are removed here to avoid conflicts.
@@ -24,13 +27,13 @@ Below shows the startup message rendered when this plugin detects Laravel apps. 
 ### When Sail is detected - use Sail wrappers
 
 <p align="center">
-  <img src="branding/with-sail.png" alt="SessionStart with Sail detected" height="366" />
+  <img src="branding/with-sail.png" alt="SessionStart with Sail detected" height="250" />
 </p>
 
 ### When Sail is NOT detected - use host machine commands
 
 <p align="center">
-  <img src="branding/without-sail.png" alt="SessionStart without Sail" height="425" />
+  <img src="branding/without-sail.png" alt="SessionStart without Sail" height="300" />
 </p>
 
 ## Learn More
@@ -101,6 +104,17 @@ Skills activate automatically when relevant. For example:
 ```
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 ```
+
+### Monorepos and Multiple Apps
+
+When multiple Laravel apps exist (for example `apps/api`, `apps/admin`), the SessionStart hook:
+
+- Scans the repository recursively (ignores `vendor/`, `node_modules/`, `storage/`, and VCS/IDE folders) to find every `artisan` entrypoint.
+- Detects Laravel version per app (prefers `composer.lock` via `jq`, falls back to `composer.json` constraint or a portable parser).
+- Shows a summary list of all detected apps with version and Sail availability; marks the app in your current working directory as the “active” app.
+- Emits Sail guidance and interactive safety ONLY for the active app.
+
+Tip: `cd` into the app you intend to work on before starting your session to make it the active app.
 
 ## What's Inside
 
@@ -217,14 +231,3 @@ MIT License - see LICENSE file for details
 
 - **Issues**: https://github.com/jpcaparas/superpowers-laravel/issues
 - **Marketplace**: https://github.com/jpcaparas/superpowers-laravel
-
-### Monorepos and Multiple Apps
-
-When multiple Laravel apps exist (for example `apps/api`, `apps/admin`), the SessionStart hook:
-
-- Scans the repository recursively (ignores `vendor/`, `node_modules/`, `storage/`, and VCS/IDE folders) to find every `artisan` entrypoint.
-- Detects Laravel version per app (prefers `composer.lock` via `jq`, falls back to `composer.json` constraint or a portable parser).
-- Shows a summary list of all detected apps with version and Sail availability; marks the app in your current working directory as the “active” app.
-- Emits Sail guidance and interactive safety ONLY for the active app.
-
-Tip: `cd` into the app you intend to work on before starting your session to make it the active app.

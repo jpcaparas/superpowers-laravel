@@ -19,7 +19,7 @@ Plus:
 
 ## SessionStart Preview
 
-Below shows the startup message rendered when this plugin detects a Laravel repository. The assistant adapts guidance based on whether Sail is available.
+Below shows the startup message rendered when this plugin detects Laravel apps. The assistant now supports monorepos and adapts guidance based on which app is active and whether Sail is available.
 
 ### When Sail is detected - use Sail wrappers
 
@@ -217,3 +217,14 @@ MIT License - see LICENSE file for details
 
 - **Issues**: https://github.com/jpcaparas/superpowers-laravel/issues
 - **Marketplace**: https://github.com/jpcaparas/superpowers-laravel
+
+### Monorepos and Multiple Apps
+
+When multiple Laravel apps exist (for example `apps/api`, `apps/admin`), the SessionStart hook:
+
+- Scans the repository recursively (ignores `vendor/`, `node_modules/`, `storage/`, and VCS/IDE folders) to find every `artisan` entrypoint.
+- Detects Laravel version per app (prefers `composer.lock` via `jq`, falls back to `composer.json` constraint or a portable parser).
+- Shows a summary list of all detected apps with version and Sail availability; marks the app in your current working directory as the “active” app.
+- Emits Sail guidance and interactive safety ONLY for the active app.
+
+Tip: `cd` into the app you intend to work on before starting your session to make it the active app.

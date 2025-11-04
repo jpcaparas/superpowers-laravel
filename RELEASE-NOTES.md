@@ -1,5 +1,34 @@
 # Laravel Superpowers — Release Notes
 
+## v0.1.4 (2025-11-04)
+
+Monorepo-aware SessionStart with multi-app detection, per-app version reporting, and scoped Sail guidance.
+
+### Monorepo Support
+
+- Recursively discovers Laravel apps by locating `artisan` anywhere in the repo (ignores heavy/irrelevant folders like `vendor/`, `node_modules/`, `storage/`, VCS/IDE folders).
+- Supports multiple Laravel apps in a single repository. The hook lists all detected apps with:
+  - Relative path
+  - Laravel version (from `composer.lock` via `jq` when available, with fallback to `composer.json` constraint or a portable parser)
+  - Sail availability, and whether containers appear to be running
+- Determines the “active” app based on the current working directory; if only one app exists, it becomes active automatically.
+- Emits Sail guidance and interactive safety for the active app only, to avoid cross-app confusion.
+
+### Testing
+
+- Extended `scripts/test_session_start.sh` to cover:
+  - Non-Laravel repo bailout
+  - Single app (no Sail)
+  - Sail present but containers stopped (interactive safety messaging)
+  - Sail present with containers running
+  - Monorepo with two nested apps on different Laravel versions
+  - Monorepo where hook runs inside a nested app (active app semantics)
+- CI workflow `.github/workflows/test-session-start.yml` continues to run this script; no changes required beyond the added scenarios.
+
+### Notes
+
+- If `jq` is unavailable, the hook falls back to a portable parser for version detection; output may show version constraints or `unknown` in minimal setups.
+
 ## v0.1.2 (2025-11-04)
 
 Docs sweep across Laravel 11.x and 12.x, with new skills matching the intersection of stable patterns. Also consolidated duplicates and kept commands thin.

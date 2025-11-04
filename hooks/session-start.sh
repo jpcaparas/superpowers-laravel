@@ -92,21 +92,17 @@ containers_running_for_dir() {
 }
 
 # Build app list
-artisan_files=()
-while IFS= read -r _line; do
-  [ -n "$_line" ] && artisan_files+=("$_line")
-done < <(find_laravel_apps)
 declare -a app_dirs
-for f in "${artisan_files[@]:-}"; do
+while IFS= read -r f; do
   [ -z "$f" ] && continue
   d=$(dirname "$f")
   # Deduplicate
-  if printf '%s\n' "${app_dirs[@]:-}" | grep -Fxq "$d"; then continue; fi
+  if [ ${#app_dirs[@]} -gt 0 ] && printf '%s\n' "${app_dirs[@]}" | grep -Fxq "$d"; then continue; fi
   app_dirs+=("$d")
-done
+done < <(find_laravel_apps)
 
 # If no Laravel apps anywhere, exit quietly so the plugin does NOT activate
-if [ ${#app_dirs[@]:-0} -eq 0 ]; then
+if [ ${#app_dirs[@]} -eq 0 ]; then
   exit 0
 fi
 

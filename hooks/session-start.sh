@@ -93,6 +93,7 @@ containers_running_for_dir() {
 
 # Build app list
 declare -a app_dirs
+app_dirs=()
 while IFS= read -r f; do
   [ -z "$f" ] && continue
   d=$(dirname "$f")

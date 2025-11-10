@@ -1,5 +1,21 @@
 # Laravel Superpowers — Release Notes
 
+## v0.1.5 (2025-11-11)
+
+Added five new best practice skills based on recommendations from https://saasykit.com/blog/laravel-best-practices to provide comprehensive coverage of Laravel development patterns.
+
+### Added (Skills)
+
+- **Routes Best Practices** (`routes-best-practices`) - Keep routes clean and focused on mapping requests to controllers, avoiding business logic in route files
+- **Data Chunking for Large Datasets** (`data-chunking-large-datasets`) - Handle large datasets efficiently with `chunk()`, `chunkById()`, `lazy()`, and `cursor()` methods
+- **Internationalization and Translation** (`internationalization-and-translation`) - Build with i18n in mind from day one using Laravel's translation helpers
+- **Constants and Configuration** (`constants-and-configuration`) - Replace hardcoded values with constants, enums, and configuration for better maintainability
+- **Documentation Best Practices** (`documentation-best-practices`) - Write meaningful documentation that explains "why" not "what", focusing on complex business logic
+
+### Notes
+
+These additions complement the existing comprehensive skill set by filling gaps identified from the SaaSykit Laravel best practices guide. All new skills include extensive examples, anti-patterns, and real-world use cases.
+
 ## v0.1.4 (2025-11-04)
 
 Monorepo-aware SessionStart with multi-app detection, per-app version reporting, and scoped Sail guidance.

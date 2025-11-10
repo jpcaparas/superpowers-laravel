@@ -175,6 +175,7 @@ Additional wrappers for the new docs‑intersection skills:
 - Performance
 - Testing
 - Utilities
+- Best Practices
 
 ## How It Works
 

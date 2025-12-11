@@ -1,7 +1,7 @@
 {
   "name": "superpowers-laravel",
   "description": "Laravel-focused skills for Claude Code: TDD (Pest/PHPUnit), migrations, queues, quality checks (Pint/Insights), and pragmatic architecture patterns — Sail and non-Sail compatible.",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "author": {
     "name": "JP Caparas",
     "email": "jp@jpcaparas.com"
